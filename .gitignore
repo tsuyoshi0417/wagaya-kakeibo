@@ -1,0 +1,19 @@
+# === 家計は非公開・絶対にGitHubへ上げない ===
+# CLAUDE.md = 家賃・収入など家計の機密を含む
+CLAUDE.md
+# _連絡_*.md = チーム間の私信
+_連絡_*.md
+# サービスアカウント鍵
+gcp_credentials.json
+# SHEET_ID / 認証 / PIN
+.streamlit/secrets.toml
+
+# 手元だけのツール・手順（デプロイに不要・家賃額などを含むため上げない）
+家計簿セットアップ.gs
+はじめに読む.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
