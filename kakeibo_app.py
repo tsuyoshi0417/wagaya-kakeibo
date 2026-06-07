@@ -29,11 +29,12 @@ DEMO_FIXED = [("家賃", 50000), ("通信費", 5000), ("サブスク", 1500)]
 JST = dt.timezone(dt.timedelta(hours=9))
 
 INK, SOFT, WARN = "#2B2B2B", "#6B7280", "#C75B39"
+# 背景からしっかり色を変えて、切り替えが「ぱっと見で分かる」ように差を大きく
 PALETTES = {
-    "honey": {"name": "はちみつ", "accent": "#D9A520", "soft": "#FBF3DE",
-              "bg": "#FCFAF4", "border": "#EFE7D2"},
-    "lemon": {"name": "レモン",   "accent": "#F2C20E", "soft": "#FFF6C8",
-              "bg": "#FFFEF7", "border": "#F1EBD2"},
+    "honey": {"name": "はちみつ", "accent": "#C8881A", "soft": "#F3E2B0",
+              "bg": "#FBEFCF", "border": "#E7D3A0"},
+    "lemon": {"name": "レモン",   "accent": "#FFD21E", "soft": "#FFF59A",
+              "bg": "#FFFCDB", "border": "#F2E89A"},
 }
 
 
