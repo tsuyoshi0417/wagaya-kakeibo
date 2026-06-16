@@ -16,6 +16,7 @@
   "/Users/cotonoha/Desktop/cotonoha project/.venv/bin/streamlit" run kakeibo_app.py
 """
 import os
+import calendar
 import datetime as dt
 import streamlit as st
 import streamlit.components.v1 as components
@@ -176,6 +177,10 @@ def inject_css(C):
       .k-row .amt {{ font-weight:700; color:{INK}; }}
       .k-bar {{ height:8px; border-radius:6px; background:{C['soft']}; overflow:hidden; margin-top:4px; }}
       .k-bar > span {{ display:block; height:100%; background:{C['accent']}; }}
+      .k-prog {{ height:14px; border-radius:9px; background:{C['soft']}; overflow:hidden; margin:.5rem 0 .25rem; }}
+      .k-prog > span {{ display:block; height:100%; background:{C['accent']}; transition:width .4s; }}
+      .k-prog.over > span {{ background:{WARN}; }}
+      .k-pace {{ color:{SOFT}; font-size:.95rem; margin:.1rem 0 .7rem; }}
       .k-link {{ display:block; text-align:center; background:{C['accent']}; color:{INK} !important;
                 text-decoration:none; padding:.95rem; border-radius:12px; font-weight:800;
                 font-size:1.05rem; margin:.8rem 0; box-shadow:0 1px 0 rgba(0,0,0,.05); }}
@@ -204,6 +209,22 @@ def render_overview(s, live):
     st.markdown(f'<div class="k-big {warn}">{yen(left)}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="k-cap">生活費の封筒 {yen(env)} から（食費・日用品・外食）</div>',
                 unsafe_allow_html=True)
+
+    # 残りバー＋ペース（算数なし・視覚で・責めない）
+    now = dt.datetime.now(JST)
+    days_in_month = calendar.monthrange(now.year, now.month)[1]
+    remaining_days = max(1, days_in_month - now.day + 1)
+    progress = 0 if env <= 0 else min(100, round(spent / env * 100))
+    over = left < 0
+    st.markdown(f'<div class="k-prog {"over" if over else ""}">'
+                f'<span style="width:{progress}%"></span></div>', unsafe_allow_html=True)
+    if over:
+        pace = "今月の封筒はもう使いきったよ。月初にまたリセットされるから大丈夫"
+    else:
+        per_day = left / remaining_days
+        pace = f"このペースなら 1日あたり あと {yen(per_day)} 使えるよ（今月あと{remaining_days}日）"
+    st.markdown(f'<div class="k-pace">{pace}</div>', unsafe_allow_html=True)
+
     st.markdown(f'<div class="k-msg">{_gentle_message(left, env)}</div>', unsafe_allow_html=True)
 
     rows_html = ""
